@@ -20,27 +20,40 @@ class ProjectTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
-        
-        
-        
         
         navigationItem.leftBarButtonItem = editButtonItem
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showViewController(_:)))
+        addButton.tag = 1
         navigationItem.rightBarButtonItem = addButton
+        navigationItem.title = "Table Projects"
         
         databaseManagerRealm.read(Project.self, complition: {
             (object) in
             objects.insert(object, at: 0)
         })
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
 
     func showViewController(_ sender : Any) {
-        let addProjectViewController = storyboard?.instantiateViewController(withIdentifier: "AddProjectStoryboard") as! AddProjectViewController
-        present(addProjectViewController , animated: true, completion: nil)
+        
+        let myNavigation = storyboard?.instantiateViewController(withIdentifier: "AddProjectNavigation") as! UINavigationController
+        
+        let myViewController = myNavigation.viewControllers[0] as? AddProjectViewController
+        
 
+        if  (sender as AnyObject).tag == 1 {
+            myViewController?.myTitle = "Add New Project"
+        }
+        
+        present(myNavigation , animated: true, completion: nil)
+    
     }
+    
+    
+    
     
     func calculatePercent() -> Int {
         
@@ -77,49 +90,65 @@ class ProjectTableViewController: UITableViewController {
     }
     
     
-//    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-//        
-//        let delete = UITableViewRowAction(style: .normal, title: "Delete", handler: { (action , indexPath) in
-//            
-//            let objectForDelete = self.objects[indexPath.section][indexPath.row]
-//            
-//            // Alert
-//            
-//            let alert = UIAlertController(title: "Warning", message: "are you sure ?", preferredStyle: .alert)
-//            let okAction = UIAlertAction(title: "OK", style: .default, handler: {
-//                (myAction) in
-//                self.databaseManagerR.deleteItem(object: objectForDelete)
-//                self.tableView.reloadData()
-//            })
-//            alert.addAction(okAction)
-//            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: {
-//                (myAction) in
-//                self.tableView.reloadData()
-//            })
-//            alert.addAction(cancelAction)
-//            self.present(alert, animated: true, completion: nil)
-//        })
-//        
-//        
-//        let edit = UITableViewRowAction(style: .normal, title: "Edit", handler: { (action , indexPath) in
-//            
-//            let budgetPopupViewController = self.storyboard?.instantiateViewController(withIdentifier: "BudgetPopupStoryboard") as! BudgetPopupViewController
-//            
-//            let objectForEdit = self.objects[indexPath.section][indexPath.row]
-//            
-//            budgetPopupViewController.budgetEdit = objectForEdit
-//            budgetPopupViewController.isEdit = true
-//            self.present(budgetPopupViewController , animated: true, completion: nil)
-//            
-//        })
-//        
-//        delete.backgroundColor = UIColor.red
-//        edit.backgroundColor = UIColor.blue
-//        
-//        
-//        return [delete, edit]
-//    }
-//
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        
+        // Delete Row
+        
+        let delete = UITableViewRowAction(style: .normal, title: "DEL", handler: { (action , indexPath) in
+            
+            let objectForDelete = self.objects[indexPath.section][indexPath.row]
+            
+            // Alert
+            
+            let alert = UIAlertController(title: "Warning", message: "are you sure ?", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: {
+                (myAction) in
+                self.databaseManagerRealm.deleteItem(object: objectForDelete)
+                self.tableView.reloadData()
+            })
+            alert.addAction(okAction)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: {
+                (myAction) in
+                self.tableView.reloadData()
+            })
+            alert.addAction(cancelAction)
+            self.present(alert, animated: true, completion: nil)
+        })
+        
+        // Edit Row
+        
+        let edit = UITableViewRowAction(style: .normal, title: "Edit", handler: { (action , indexPath) in
+            
+            let addProjectViewController = self.storyboard?.instantiateViewController(withIdentifier: "AddProjectNavigation") as! UINavigationController
+            
+         //   let objectForEdit = self.objects[indexPath.section][indexPath.row]
+            
+            // fill the view controller with value (objectForEdit)
+            
+            self.present( addProjectViewController , animated: true, completion: nil)
+            
+        })
+        
+        //   Task
+        let task = UITableViewRowAction(style: .normal, title: "Task", handler: { (action , indexPath) in
+            
+           
+        })
+        //   Notes
+        let notes = UITableViewRowAction(style: .normal, title: "Note", handler: { (action , indexPath) in
+            
+            
+        })
+
+        
+        delete.backgroundColor = UIColor.red
+        edit.backgroundColor = UIColor.blue
+        task.backgroundColor = UIColor.orange
+        
+        return [delete, edit, task, notes]
+    }
+
     
     
     

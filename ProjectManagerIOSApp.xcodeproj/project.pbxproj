@@ -20,7 +20,8 @@
 		6595E8E61F32140A004C8CCA /* DatabaseManagerRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6595E8E51F32140A004C8CCA /* DatabaseManagerRealm.swift */; };
 		6595E8E91F325138004C8CCA /* ProjectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6595E8E81F325138004C8CCA /* ProjectTableViewController.swift */; };
 		6595E8EB1F325C5A004C8CCA /* ProjectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6595E8EA1F325C5A004C8CCA /* ProjectTableViewCell.swift */; };
-		65F9EC691F32E01600DB446E /* MyNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F9EC681F32E01600DB446E /* MyNote.swift */; };
+		65F9EC691F32E01600DB446E /* MyNotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F9EC681F32E01600DB446E /* MyNotes.swift */; };
+		65F9EC6B1F3417D900DB446E /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F9EC6A1F3417D900DB446E /* Extentions.swift */; };
 		8DEF165B34B73B9EA0DA9970 /* Pods_ProjectManagerIOSAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F182849F489DDCD745B77FF8 /* Pods_ProjectManagerIOSAppUITests.framework */; };
 		E079AE4AB7B4C7C7CC098FAA /* Pods_ProjectManagerIOSAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45AA179F33D0DD4E884C825E /* Pods_ProjectManagerIOSAppTests.framework */; };
 		EA319CEBEF17187B4DAA5272 /* Pods_ProjectManagerIOSApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 372614E48EBE0A30FA3A1483 /* Pods_ProjectManagerIOSApp.framework */; };
@@ -68,7 +69,8 @@
 		6595E8E51F32140A004C8CCA /* DatabaseManagerRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManagerRealm.swift; sourceTree = "<group>"; };
 		6595E8E81F325138004C8CCA /* ProjectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectTableViewController.swift; sourceTree = "<group>"; };
 		6595E8EA1F325C5A004C8CCA /* ProjectTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectTableViewCell.swift; sourceTree = "<group>"; };
-		65F9EC681F32E01600DB446E /* MyNote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyNote.swift; sourceTree = "<group>"; };
+		65F9EC681F32E01600DB446E /* MyNotes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyNotes.swift; sourceTree = "<group>"; };
+		65F9EC6A1F3417D900DB446E /* Extentions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 		86CCE740129B6A4F58676EC1 /* Pods-ProjectManagerIOSApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectManagerIOSApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-ProjectManagerIOSApp/Pods-ProjectManagerIOSApp.release.xcconfig"; sourceTree = "<group>"; };
 		9818B776F5F9D36E314F5AF1 /* Pods-ProjectManagerIOSApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectManagerIOSApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ProjectManagerIOSApp/Pods-ProjectManagerIOSApp.debug.xcconfig"; sourceTree = "<group>"; };
 		9926C1FE19AF0846FBE287EA /* Pods-ProjectManagerIOSAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectManagerIOSAppUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ProjectManagerIOSAppUITests/Pods-ProjectManagerIOSAppUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -152,6 +154,10 @@
 			isa = PBXGroup;
 			children = (
 				6595E8B31F320668004C8CCA /* Main.storyboard */,
+				6595E8B11F320668004C8CCA /* AddProjectViewController.swift */,
+				6595E8E81F325138004C8CCA /* ProjectTableViewController.swift */,
+				6595E8EA1F325C5A004C8CCA /* ProjectTableViewCell.swift */,
+				65F9EC6A1F3417D900DB446E /* Extentions.swift */,
 				6595E8E71F3250D3004C8CCA /* views */,
 				6595E8E01F320D04004C8CCA /* Model */,
 				6595E8DD1F320CD4004C8CCA /* Service */,
@@ -193,7 +199,7 @@
 			children = (
 				6595E8DE1F320CF6004C8CCA /* Task.swift */,
 				6595E8E11F320ED8004C8CCA /* TaskStatus.swift */,
-				65F9EC681F32E01600DB446E /* MyNote.swift */,
+				65F9EC681F32E01600DB446E /* MyNotes.swift */,
 				6595E8E31F321264004C8CCA /* Project.swift */,
 				6595E8E51F32140A004C8CCA /* DatabaseManagerRealm.swift */,
 			);
@@ -203,9 +209,6 @@
 		6595E8E71F3250D3004C8CCA /* views */ = {
 			isa = PBXGroup;
 			children = (
-				6595E8B11F320668004C8CCA /* AddProjectViewController.swift */,
-				6595E8E81F325138004C8CCA /* ProjectTableViewController.swift */,
-				6595E8EA1F325C5A004C8CCA /* ProjectTableViewCell.swift */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -493,10 +496,11 @@
 			files = (
 				6595E8B21F320668004C8CCA /* AddProjectViewController.swift in Sources */,
 				6595E8DF1F320CF6004C8CCA /* Task.swift in Sources */,
+				65F9EC6B1F3417D900DB446E /* Extentions.swift in Sources */,
 				6595E8E21F320ED8004C8CCA /* TaskStatus.swift in Sources */,
 				6595E8E61F32140A004C8CCA /* DatabaseManagerRealm.swift in Sources */,
 				6595E8E41F321264004C8CCA /* Project.swift in Sources */,
-				65F9EC691F32E01600DB446E /* MyNote.swift in Sources */,
+				65F9EC691F32E01600DB446E /* MyNotes.swift in Sources */,
 				6595E8E91F325138004C8CCA /* ProjectTableViewController.swift in Sources */,
 				6595E8B01F320668004C8CCA /* AppDelegate.swift in Sources */,
 				6595E8EB1F325C5A004C8CCA /* ProjectTableViewCell.swift in Sources */,

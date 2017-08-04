@@ -22,7 +22,6 @@ class ProjectTableViewCell: UITableViewCell {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
-        dateFormatter.timeStyle = .medium
         
         if object is Project{
            

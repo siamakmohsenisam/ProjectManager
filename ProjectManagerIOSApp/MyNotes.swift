@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-class MyNote: Object {
+class MyNotes: Object {
     dynamic var id = NSUUID().uuidString
     dynamic var note : String = ""
     

@@ -30,6 +30,7 @@ class DatabaseManagerRealm : NSObject {
                         project.id = duplicateName[0].id
                     }
                 }
+                
                 realm?.add(object, update: true)
             }
         }
