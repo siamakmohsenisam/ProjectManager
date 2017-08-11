@@ -25,25 +25,52 @@ class DatabaseManagerRealm : NSObject {
         
         try? realm?.write {
             if let project = object as? Project {
-                if let duplicateName = realm?.objects(Project.self).filter("name = %@", project.name) {
-                    if duplicateName.count > 0 {
-                        project.id = duplicateName[0].id
-                    }
-                }
                 
+                if let duplicateName = realm?.objects(Project.self).filter("name = %@", project.name).first {
+                    project.id = duplicateName.id
+                }
                 realm?.add(object, update: true)
             }
         }
     }
     
-    public func read <T : Object> (_ model : T.Type ,
-                      complition: (Results<T>)-> () )
-    {
-        let result = realm?.objects(model)
+    public func write(project : Project, name : String? = nil , startDate : Date? = nil, endDate : Date? = nil, task : Task? = nil , note : MyNotes? = nil  ) {
         
-        if let myResult = result {
-            complition(myResult)
+        try? realm?.write
+        {
+            if let myName = name {
+                guard (realm?.objects(Project.self).filter("name = %@", myName).first) == nil else { return }
+                project.name = myName
+            }
+            if let myStartDate = startDate {
+                project.startDate = myStartDate
+            }
+            if let myEndDate = endDate {
+                project.endDate = myEndDate
+            }
+            if let myTask = task {
+                project.tasks.append(myTask)
+            }
+            if let myNote = note {
+                project.notes.append(myNote)
+            }
         }
+    }
+
+    public func readObject <T : Object> (_ model : T.Type , name : String , complition: (T)-> () )
+    {
+        guard let result = realm?.objects(model).filter("name = %@", name).first else {return}
+        
+        complition(result)
+        
+    }
+    
+    public func read <T : Object> (_ model : T.Type , complition: (Results<T>)-> () )
+    {
+        guard let result = realm?.objects(model) else {return}
+        
+        complition(result)
+        
     }
     
     public func deleteItem<T : Object>(object : T){

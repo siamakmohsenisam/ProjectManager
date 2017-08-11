@@ -22,7 +22,7 @@ class ProjectTableViewController: UITableViewController {
         super.viewDidLoad()
         
         navigationItem.leftBarButtonItem = editButtonItem
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showViewController(_:)))
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showViewController))
         addButton.tag = 1
         navigationItem.rightBarButtonItem = addButton
         navigationItem.title = "Table Projects"
@@ -120,13 +120,14 @@ class ProjectTableViewController: UITableViewController {
         
         let edit = UITableViewRowAction(style: .normal, title: "Edit", handler: { (action , indexPath) in
             
-            let addProjectViewController = self.storyboard?.instantiateViewController(withIdentifier: "AddProjectNavigation") as! UINavigationController
+            let myNavigation = self.storyboard?.instantiateViewController(withIdentifier: "AddProjectNavigation") as! UINavigationController
             
-         //   let objectForEdit = self.objects[indexPath.section][indexPath.row]
+             let addProjectViewController = myNavigation.viewControllers[0] as? AddProjectViewController
             
-            // fill the view controller with value (objectForEdit)
+            addProjectViewController?.projectName = self.objects[indexPath.section][indexPath.row].name
+            addProjectViewController?.myTitle = "Edit Project"
             
-            self.present( addProjectViewController , animated: true, completion: nil)
+            self.present(myNavigation , animated: true, completion: nil)
             
         })
         
@@ -138,6 +139,14 @@ class ProjectTableViewController: UITableViewController {
         //   Notes
         let notes = UITableViewRowAction(style: .normal, title: "Note", handler: { (action , indexPath) in
             
+            let myNavigation = self.storyboard?.instantiateViewController(withIdentifier: "NotesTableViewController") as! UINavigationController
+            
+            let notesTableViewController = myNavigation.viewControllers[0] as? NotesTableViewController
+            
+            notesTableViewController?.projectName = self.objects[indexPath.section][indexPath.row].name
+            notesTableViewController?.myTitle = "Notes"
+            
+            self.present(myNavigation , animated: true, completion: nil)
             
         })
 
