@@ -13,6 +13,8 @@ class NotesTableViewController: UITableViewController {
     
     let databaseManagerRealm = DatabaseManagerRealm.sharedInstance
     var project = Project()
+    var index = -1
+    var textView = UITextView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,13 +28,42 @@ class NotesTableViewController: UITableViewController {
         navigationItem.title = "List of Notes"
         
     }
+    
     func addNote() {
-        let note = MyNotes()
-        note.note = "ssssss"
-        
-        databaseManagerRealm.write(project: project, note: note)
-        tableView.reloadData()
+        textView.frame = tableView.frame
+        textView.addDone(done: "doneTextView", cancel: "cancleEditText", target: self)
+        textView.becomeFirstResponder()
+        view.addSubview(textView)
     }
+    
+    func doneTextView(){
+        if index == -1{
+            let note = MyNotes()
+            if let myText = textView.text {
+                note.note = myText
+            }
+            databaseManagerRealm.write(project: project, note: note)
+            textView.text = ""
+        }
+        else {
+            if let myText = textView.text {
+                databaseManagerRealm.write(note: project.notes[index], projectName: project.name, myNote: myText)
+                index = -1
+                textView.text = ""
+            }
+        }
+        tableView.reloadData()
+        textView.removeFromSuperview()
+    }
+    
+    func cancleEditText(){
+        tableView.reloadData()
+        textView.removeFromSuperview()
+    }
+    
+    
+    
+    
     
     func showViewController() {
         let myNavigation = storyboard?.instantiateViewController(withIdentifier: "TableProjectNavigation") as! UINavigationController
@@ -95,16 +126,9 @@ class NotesTableViewController: UITableViewController {
         // Edit Row
         
         let edit = UITableViewRowAction(style: .normal, title: "Edit", handler: { (action , indexPath) in
-            
-            let myNavigation = self.storyboard?.instantiateViewController(withIdentifier: "AddProjectNavigation") as! UINavigationController
-            
-            let addProjectViewController = myNavigation.viewControllers[0] as? AddProjectViewController
-            
-   //         addProjectViewController?.projectName = self.objects[indexPath.section][indexPath.row].name
-            addProjectViewController?.myTitle = "Edit Project"
-            
-            self.present(myNavigation , animated: true, completion: nil)
-            
+            self.index = indexPath.row
+            self.addNote()
+            self.textView.text = self.project.notes[indexPath.row].note
         })
         
         

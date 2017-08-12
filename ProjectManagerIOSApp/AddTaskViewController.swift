@@ -9,6 +9,7 @@
 import UIKit
 
 class AddTaskViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDataSource {
+    @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var textFieldName: UITextField!
     @IBOutlet weak var textFieldStartDate: UITextField!
@@ -26,9 +27,11 @@ class AddTaskViewController: UIViewController , UIPickerViewDelegate, UIPickerVi
     let datePicker = UIDatePicker()
     let pickerView = UIPickerView()
     let status = ["toDo", "inProgress", "done"]
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        registerForKeyboardNotifications()
         
         pickerView.dataSource = self
         pickerView.delegate = self
@@ -61,6 +64,7 @@ class AddTaskViewController: UIViewController , UIPickerViewDelegate, UIPickerVi
 
         textFieldStatus.inputView = pickerView
         textFieldStatus.addDone(done: "doneMethod", cancel: "cancelMethod", target: self)
+        textFieldEffort.addDone(done: "doneMethod", cancel: "cancelMethod", target: self)
         
     }
     
@@ -140,7 +144,34 @@ class AddTaskViewController: UIViewController , UIPickerViewDelegate, UIPickerVi
     }
 
     
+    // keyboard method
     
+    func registerForKeyboardNotifications(){
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden), name: .UIKeyboardWillHide, object: nil)
+    }
+    
+    func keyboardWasShown(_ notification: NSNotification) {
+        guard let info = notification.userInfo,
+            let kerboardFrameValue = info[UIKeyboardFrameBeginUserInfoKey] as? NSValue
+            else { return  }
+        let keyboardFrame = kerboardFrameValue.cgRectValue
+        let keyboardSize = keyboardFrame.size
+        let contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize.height , 0.0)
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
+    }
+    
+    func keyboardWillBeHidden(_ notification: NSNotification) {
+
+        scrollView.setContentOffset(CGPoint(x: 0, y: -60), animated: true)
+        
+    //    let contentInsets = UIEdgeInsets.zero
+    //    scrollView.contentInset = contentInsets
+    //    scrollView.scrollIndicatorInsets = contentInsets
+    }
+    
+
     
     
 }

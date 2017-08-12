@@ -124,9 +124,12 @@ class AddProjectViewController : UIViewController {
     }
     
     func keyboardWillBeHidden(_ notification: NSNotification) {
-        let contentInsets = UIEdgeInsets.zero
-        scrollView.contentInset = contentInsets
-        scrollView.scrollIndicatorInsets = contentInsets
+        
+        scrollView.setContentOffset(CGPoint(x: 0, y: -60), animated: true)
+
+//        let contentInsets = UIEdgeInsets.zero
+//        scrollView.contentInset = contentInsets
+//        scrollView.scrollIndicatorInsets = contentInsets
     }
     
     
