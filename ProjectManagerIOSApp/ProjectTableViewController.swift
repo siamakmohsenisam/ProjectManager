@@ -124,7 +124,7 @@ class ProjectTableViewController: UITableViewController {
             
              let addProjectViewController = myNavigation.viewControllers[0] as? AddProjectViewController
             
-            addProjectViewController?.projectName = self.objects[indexPath.section][indexPath.row].name
+            addProjectViewController?.project = self.objects[indexPath.section][indexPath.row]
             addProjectViewController?.myTitle = "Edit Project"
             
             self.present(myNavigation , animated: true, completion: nil)
@@ -134,17 +134,24 @@ class ProjectTableViewController: UITableViewController {
         //   Task
         let task = UITableViewRowAction(style: .normal, title: "Task", handler: { (action , indexPath) in
             
+            let myNavigation = self.storyboard?.instantiateViewController(withIdentifier: "TaskTableViewController") as! UINavigationController
+            
+            let tasksTableViewController = myNavigation.viewControllers[0] as? TasksTableViewController
+            
+            tasksTableViewController?.project = self.objects[indexPath.section][indexPath.row]
+            
+            self.present(myNavigation , animated: true, completion: nil)
+
            
         })
         //   Notes
-        let notes = UITableViewRowAction(style: .normal, title: "Note", handler: { (action , indexPath) in
+        let notes = UITableViewRowAction(style: .normal, title: "Notes", handler: { (action , indexPath) in
             
             let myNavigation = self.storyboard?.instantiateViewController(withIdentifier: "NotesTableViewController") as! UINavigationController
             
             let notesTableViewController = myNavigation.viewControllers[0] as? NotesTableViewController
             
-            notesTableViewController?.projectName = self.objects[indexPath.section][indexPath.row].name
-            notesTableViewController?.myTitle = "Notes"
+            notesTableViewController?.project = self.objects[indexPath.section][indexPath.row]
             
             self.present(myNavigation , animated: true, completion: nil)
             

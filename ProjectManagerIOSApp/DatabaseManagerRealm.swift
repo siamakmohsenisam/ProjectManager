@@ -34,13 +34,15 @@ class DatabaseManagerRealm : NSObject {
         }
     }
     
+     // update a Project
     public func write(project : Project, name : String? = nil , startDate : Date? = nil, endDate : Date? = nil, task : Task? = nil , note : MyNotes? = nil  ) {
         
         try? realm?.write
         {
             if let myName = name {
-                guard (realm?.objects(Project.self).filter("name = %@", myName).first) == nil else { return }
-                project.name = myName
+                if (realm?.objects(Project.self).filter("name = %@", myName).first) == nil {
+                    project.name = myName
+                }
             }
             if let myStartDate = startDate {
                 project.startDate = myStartDate
@@ -49,20 +51,53 @@ class DatabaseManagerRealm : NSObject {
                 project.endDate = myEndDate
             }
             if let myTask = task {
-                project.tasks.append(myTask)
+                if project.tasks.filter("name = %@", myTask.name).count == 0 {
+                    project.tasks.append(myTask)
+                }
             }
             if let myNote = note {
                 project.notes.append(myNote)
             }
         }
     }
-
-    public func readObject <T : Object> (_ model : T.Type , name : String , complition: (T)-> () )
+    // update a Task
+    public func write(task : Task, projectName : String, name : String? = nil , startDate : Date? = nil, endDate : Date? = nil, effort : Double? = nil , status : String? = nil) {
+        
+        try? realm?.write
+        {
+            if let myName = name {
+                if (realm?.objects(Project.self).filter("name = %@", projectName).first)?.tasks.filter("name = %@", myName).count == 0 {
+                    task.name = myName
+                }
+            }
+            if let myStartDate = startDate {
+                task.startDate = myStartDate
+            }
+            if let myEndDate = endDate {
+                task.endDate = myEndDate
+            }
+            if let myEffort = effort {
+                task.effort = myEffort
+            }
+            if let myStatus = status {
+                task.status = myStatus
+            }
+        }
+    }
+    // update a Note
+    public func write(note : MyNotes, projectName : String, myNote : String) {
+        
+        try? realm?.write
+        {
+            note.note = myNote
+        }
+    }
+    
+    public func readObject <T : Object> (_ model : T.Type , name : String , complition: (Object)-> () )
     {
-        guard let result = realm?.objects(model).filter("name = %@", name).first else {return}
+        guard let result = realm?.objects(Project.self).filter("name = %@", name).first else {return}
         
         complition(result)
-        
     }
     
     public func read <T : Object> (_ model : T.Type , complition: (Results<T>)-> () )
@@ -73,9 +108,21 @@ class DatabaseManagerRealm : NSObject {
         
     }
     
-    public func deleteItem<T : Object>(object : T){
+    public func deleteItem<T : Object>(object : T, project : Project? = nil, index : Int? = nil){
         try? realm?.write {
-            realm?.delete(object)
+            if object is Project {
+                realm?.delete(object)
+            }
+            if object is MyNotes {
+                if let myIndex = index {
+                    project?.notes.remove(objectAtIndex: myIndex)
+                }
+            }
+            if object is Task {
+                if let myIndex = index {
+                    project?.tasks.remove(objectAtIndex: myIndex)
+                }
+            }
         }
     }
     

@@ -10,6 +10,29 @@ import UIKit
 
 class TasksTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var labelEffort: UILabel!
+    
+    @IBOutlet weak var labelName: UILabel!
+    
+    @IBOutlet weak var labelStatus: UILabel!
+    
+    @IBOutlet weak var labelStartDate: UILabel!
+    
+    @IBOutlet weak var labelEndDate: UILabel!
+    
+    
+    func updateCell(task : Task){
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .long
+
+        labelName.text = task.name
+        labelEffort.text = String(task.effort)
+        labelStatus.text = task.status
+        labelStartDate.text = dateFormatter.string(from: task.startDate)
+        labelEndDate.text = dateFormatter.string(from: task.endDate)
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

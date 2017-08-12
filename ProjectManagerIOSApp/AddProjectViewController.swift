@@ -22,7 +22,6 @@ class AddProjectViewController : UIViewController {
     
     let databaseManagerRealm = DatabaseManagerRealm.sharedInstance
     var project = Project()
-    var projectName = ""
     let dateFormatter = DateFormatter()
     
     var myTitle : String?
@@ -35,14 +34,10 @@ class AddProjectViewController : UIViewController {
         datePicker.datePickerMode = .date
         dateFormatter.dateStyle = .long
         
-        if projectName != "" {
-            databaseManagerRealm.readObject(Project.self , name: projectName, complition: {
-                (object) in
-                project = object
-                textFieldName.text = object.name
-                textFieldStartDate.text = dateFormatter.string(from: object.startDate)
-                textFieldEndDate.text = dateFormatter.string(from: object.endDate)
-            })
+        if myTitle == "Edit Project" {
+            textFieldName.text = project.name
+            textFieldStartDate.text = dateFormatter.string(from: project.startDate)
+            textFieldEndDate.text = dateFormatter.string(from: project.endDate)
         }
         
         
@@ -80,10 +75,17 @@ class AddProjectViewController : UIViewController {
             myEndDate != "" else { return  }
         
         guard let startDate = dateFormatter.date(from: myStartDate) ,
-              let endDate = dateFormatter.date(from: myEndDate) else { return  }
+            let endDate = dateFormatter.date(from: myEndDate) else { return  }
         
-        databaseManagerRealm.write(project: project, name: name, startDate: startDate,  endDate: endDate)
-        
+        if myTitle == "Edit Project" {
+            databaseManagerRealm.write(project: project, name: name, startDate: startDate,  endDate: endDate)
+        }
+        else{
+            project.name = name
+            project.startDate = startDate
+            project.endDate = endDate
+            databaseManagerRealm.write(object: project)
+        }
         showViewController()
     }
     

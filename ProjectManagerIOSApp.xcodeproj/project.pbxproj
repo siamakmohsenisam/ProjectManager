@@ -24,6 +24,7 @@
 		65B34AAF1F3E2A11005B0287 /* TasksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B34AAE1F3E2A11005B0287 /* TasksTableViewController.swift */; };
 		65B34AB11F3E2A57005B0287 /* TasksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B34AB01F3E2A57005B0287 /* TasksTableViewCell.swift */; };
 		65B34AB31F3E2B60005B0287 /* NotesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B34AB21F3E2B60005B0287 /* NotesTableViewCell.swift */; };
+		65B34AB51F3E8CCF005B0287 /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B34AB41F3E8CCF005B0287 /* AddTaskViewController.swift */; };
 		65F9EC691F32E01600DB446E /* MyNotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F9EC681F32E01600DB446E /* MyNotes.swift */; };
 		65F9EC6B1F3417D900DB446E /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F9EC6A1F3417D900DB446E /* Extentions.swift */; };
 		8DEF165B34B73B9EA0DA9970 /* Pods_ProjectManagerIOSAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F182849F489DDCD745B77FF8 /* Pods_ProjectManagerIOSAppUITests.framework */; };
@@ -77,6 +78,7 @@
 		65B34AAE1F3E2A11005B0287 /* TasksTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksTableViewController.swift; sourceTree = "<group>"; };
 		65B34AB01F3E2A57005B0287 /* TasksTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksTableViewCell.swift; sourceTree = "<group>"; };
 		65B34AB21F3E2B60005B0287 /* NotesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesTableViewCell.swift; sourceTree = "<group>"; };
+		65B34AB41F3E8CCF005B0287 /* AddTaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
 		65F9EC681F32E01600DB446E /* MyNotes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyNotes.swift; sourceTree = "<group>"; };
 		65F9EC6A1F3417D900DB446E /* Extentions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 		86CCE740129B6A4F58676EC1 /* Pods-ProjectManagerIOSApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectManagerIOSApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-ProjectManagerIOSApp/Pods-ProjectManagerIOSApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				65B34AB21F3E2B60005B0287 /* NotesTableViewCell.swift */,
 				65B34AAE1F3E2A11005B0287 /* TasksTableViewController.swift */,
 				65B34AB01F3E2A57005B0287 /* TasksTableViewCell.swift */,
+				65B34AB41F3E8CCF005B0287 /* AddTaskViewController.swift */,
 				65F9EC6A1F3417D900DB446E /* Extentions.swift */,
 				6595E8E01F320D04004C8CCA /* Model */,
 				6595E8DD1F320CD4004C8CCA /* Service */,
@@ -502,6 +505,7 @@
 				65B34AAD1F3E29E9005B0287 /* NotesTableViewController.swift in Sources */,
 				65B34AB11F3E2A57005B0287 /* TasksTableViewCell.swift in Sources */,
 				6595E8DF1F320CF6004C8CCA /* Task.swift in Sources */,
+				65B34AB51F3E8CCF005B0287 /* AddTaskViewController.swift in Sources */,
 				65F9EC6B1F3417D900DB446E /* Extentions.swift in Sources */,
 				65B34AB31F3E2B60005B0287 /* NotesTableViewCell.swift in Sources */,
 				6595E8E21F320ED8004C8CCA /* TaskStatus.swift in Sources */,

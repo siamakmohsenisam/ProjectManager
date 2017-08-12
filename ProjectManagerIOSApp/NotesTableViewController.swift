@@ -13,17 +13,9 @@ class NotesTableViewController: UITableViewController {
     
     let databaseManagerRealm = DatabaseManagerRealm.sharedInstance
     var project = Project()
-    var projectName = ""
-    var myTitle : String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        databaseManagerRealm.readObject(Project.self , name: projectName, complition: {
-            (object) in
-            project = object
-        })
         
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNote))
         navigationItem.rightBarButtonItem = addButton
@@ -31,8 +23,7 @@ class NotesTableViewController: UITableViewController {
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(showViewController))
         navigationItem.leftBarButtonItem = cancelButton
         
-        navigationItem.title = myTitle
-        
+        navigationItem.title = "List of Notes"
         
     }
     func addNote() {
@@ -40,6 +31,7 @@ class NotesTableViewController: UITableViewController {
         note.note = "ssssss"
         
         databaseManagerRealm.write(project: project, note: note)
+        tableView.reloadData()
     }
     
     func showViewController() {
@@ -73,56 +65,55 @@ class NotesTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        
+        // Delete Row
+        
+        let delete = UITableViewRowAction(style: .normal, title: "DEL", handler: { (action , indexPath) in
+            
+            let objectForDelete = self.project.notes[indexPath.row]
+            
+            // Alert
+            
+            let alert = UIAlertController(title: "Warning", message: "are you sure ?", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: {
+                (myAction) in
+                self.databaseManagerRealm.deleteItem(object: objectForDelete, project: self.project, index: indexPath.row)
+                self.tableView.reloadData()
+            })
+            
+            alert.addAction(okAction)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: {
+                (myAction) in
+                self.tableView.reloadData()
+            })
+            alert.addAction(cancelAction)
+            self.present(alert, animated: true, completion: nil)
+        })
+        
+        // Edit Row
+        
+        let edit = UITableViewRowAction(style: .normal, title: "Edit", handler: { (action , indexPath) in
+            
+            let myNavigation = self.storyboard?.instantiateViewController(withIdentifier: "AddProjectNavigation") as! UINavigationController
+            
+            let addProjectViewController = myNavigation.viewControllers[0] as? AddProjectViewController
+            
+   //         addProjectViewController?.projectName = self.objects[indexPath.section][indexPath.row].name
+            addProjectViewController?.myTitle = "Edit Project"
+            
+            self.present(myNavigation , animated: true, completion: nil)
+            
+        })
+        
+        
+        delete.backgroundColor = UIColor.red
+        edit.backgroundColor = UIColor.blue
+        
+        return [delete, edit]
+    }
     
     
-    
-    
-    
-    
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
 }
