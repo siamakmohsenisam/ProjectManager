@@ -27,7 +27,7 @@ class TasksTableViewCell: UITableViewCell {
         dateFormatter.dateStyle = .long
 
         labelName.text = task.name
-        labelEffort.text = String(task.effort)
+        labelEffort.text = String(task.effort) + "h"
         labelStatus.text = task.status
         labelStartDate.text = dateFormatter.string(from: task.startDate)
         labelEndDate.text = dateFormatter.string(from: task.endDate)

@@ -27,7 +27,7 @@ class AddTaskViewController: UIViewController , UIPickerViewDelegate, UIPickerVi
     let datePicker = UIDatePicker()
     let pickerView = UIPickerView()
     let status = ["toDo", "inProgress", "done"]
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,7 +38,7 @@ class AddTaskViewController: UIViewController , UIPickerViewDelegate, UIPickerVi
         
         dateFormatter.dateStyle = .long
         datePicker.datePickerMode = .date
-
+        
         if myTitle == "Edit Task" {
             
             textFieldName.text = task.name
@@ -61,7 +61,7 @@ class AddTaskViewController: UIViewController , UIPickerViewDelegate, UIPickerVi
         textFieldStartDate.addDatePicker(done: "doneMethod", cancel: "cancelMethod", datePicker: datePicker, target: self)
         
         textFieldEndDate.addDatePicker(done: "doneMethod", cancel: "cancelMethod", datePicker: datePicker, target: self)
-
+        
         textFieldStatus.inputView = pickerView
         textFieldStatus.addDone(done: "doneMethod", cancel: "cancelMethod", target: self)
         textFieldEffort.addDone(done: "doneMethod", cancel: "cancelMethod", target: self)
@@ -91,22 +91,85 @@ class AddTaskViewController: UIViewController , UIPickerViewDelegate, UIPickerVi
             myStartDate != "" &&
             myEndDate != "" &&
             status != "" &&
-            myEffort != "" else { return  }
+            myEffort != "" else {
+                 alert(mesage: "You must fill all textfields")
+                return  }
         
         guard let startDate = dateFormatter.date(from: myStartDate) ,
             let endDate = dateFormatter.date(from: myEndDate) ,
-            let effort = Double(myEffort) else { return  }
+            let effort = Double(myEffort) else {
+                alert(mesage: "Your effort is not correct")
+                return  }
         
+        guard startDate >= project.startDate else {
+            alert(mesage: "you can't set start date task befor start project")
+            return
+        }
+        
+        guard endDate <= project.endDate else {
+            alert(mesage: "you can't set end date task after end project")
+            return
+        }
+        
+        var startTaskDate = startDate
+        var endTaskDate = endDate
+
         if myTitle == "Edit Task" {
-            databaseManagerRealm.write(task: task, projectName: project.name, name: name, startDate: startDate, endDate: endDate, effort: effort, status: status)
+            
+            if task.status == "toDo" && status == "inProgress"{
+                if project.startDate <= Date() {
+                    startTaskDate = Date()
+                }
+                else {
+                    alert(mesage: "start of task must be bigger than start of project ")
+                    return }
+            }
+            
+            if task.status == "inProgress" && status == "done"{
+                if project.endDate >= Date() {
+                    endTaskDate = Date()
+                }
+                else {
+                    alert(mesage: "end of task must be less than end of project ")
+                    return }
+            }
+
+            guard startTaskDate <= endTaskDate else {
+                alert(mesage: "start date task must be less than end date ")
+                return  }
+            
+            databaseManagerRealm.write(task: task, projectName: project.name, name: name, startDate: startTaskDate, endDate: endTaskDate, effort: effort, status: status)
         }
         else{
+            
+            if status == "inProgress" {
+                if project.startDate <= Date() {
+                    startTaskDate = Date()
+                }
+                else {
+                    alert(mesage: "start of task must be bigger than start of project ")
+                    return }
+            }
+            
+            if status == "done" {
+                if project.endDate >= Date() {
+                    endTaskDate = Date()
+                }
+                else {
+                    alert(mesage: "end of task must be less than end of project ")
+                    return }
+            }
+            
+            guard startTaskDate <= endTaskDate else {
+                alert(mesage: "start date task must be less than end date ")
+                return  }
+
             task.name = name
-            task.startDate = startDate
-            task.endDate = endDate
+            task.startDate = startTaskDate
+            task.endDate = endTaskDate
             task.effort = effort
             task.status = status
-           databaseManagerRealm.write(project: project, task: task)
+            databaseManagerRealm.write(project: project, task: task)
         }
         
         showViewController()
@@ -142,7 +205,7 @@ class AddTaskViewController: UIViewController , UIPickerViewDelegate, UIPickerVi
         
         return status[row]
     }
-
+    
     
     // keyboard method
     
@@ -163,15 +226,35 @@ class AddTaskViewController: UIViewController , UIPickerViewDelegate, UIPickerVi
     }
     
     func keyboardWillBeHidden(_ notification: NSNotification) {
-
+        
         scrollView.setContentOffset(CGPoint(x: 0, y: -60), animated: true)
         
-    //    let contentInsets = UIEdgeInsets.zero
-    //    scrollView.contentInset = contentInsets
-    //    scrollView.scrollIndicatorInsets = contentInsets
+        //    let contentInsets = UIEdgeInsets.zero
+        //    scrollView.contentInset = contentInsets
+        //    scrollView.scrollIndicatorInsets = contentInsets
     }
     
-
+    // Alert
+    func alert(mesage : String , titleButton1 : String = "Ok" , titleButton2 : String = "" , okAction : ((UIAlertAction) -> ())? = nil, cancelAction : ((UIAlertAction) -> ())? = nil ){
+        
+        
+        let alert = UIAlertController(title: "Warning", message: mesage, preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: titleButton1, style: .default, handler: okAction)
+        alert.addAction(okAction)
+        
+        if titleButton2 != "" {
+            let cancelAction = UIAlertAction(title: titleButton2, style: .default, handler: cancelAction)
+            alert.addAction(cancelAction)
+        }
+        
+        self.present(alert, animated: true, completion: nil)
+        
+    }
     
     
 }
+
+
+
+

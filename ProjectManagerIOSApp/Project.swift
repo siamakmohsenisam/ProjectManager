@@ -16,7 +16,7 @@ class Project: Object {
     dynamic var endDate = Date()
     let notes = List<MyNotes>()
     let tasks = List<Task>()
-    
+        
     // I will use this variable for delete from ios Calendar
     dynamic var identifire = ""
 

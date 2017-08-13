@@ -21,6 +21,10 @@ class ProjectTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        calculatePercent()
+        
+        
+        
         navigationItem.leftBarButtonItem = editButtonItem
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showViewController))
         addButton.tag = 1
@@ -56,8 +60,27 @@ class ProjectTableViewController: UITableViewController {
     
     
     func calculatePercent() -> Int {
+       
+        let calendar = Calendar.current
+        let dateForrmater = DateFormatter()
+        dateForrmater.dateFormat = "y-MM-dd h:mm:ss "
         
-   //     duration = Calendar.current.dateComponents([.day], from: startDate, to: endDate).day!
+        var endDate = calendar.date(byAdding: .year, value: 10, to: Date())
+        
+       var duration = calendar.dateComponents([.day ], from: Date(), to: endDate!)
+        print(duration)
+        let d1 = calendar.date(from: duration)
+        var du2 = calendar.dateComponents([.hour, .day, .minute, .second, .year, .month ], from: d1!)
+        
+        print(du2)
+        du2.hour! += 30
+        
+        print(du2)
+        
+        let s = calendar.date(from: du2)
+        print(calendar.dateComponents([.hour, .day, .minute, .second, .year, .month ], from: s!))
+        print(dateForrmater.string(from: s!))
+        
         
         return 0
     }

@@ -70,13 +70,31 @@ class AddProjectViewController : UIViewController {
         guard let name = textFieldName.text ,
             let myStartDate = textFieldStartDate.text ,
             let myEndDate = textFieldEndDate.text else {  return }
+        
         guard name != "" &&
             myStartDate != "" &&
-            myEndDate != "" else { return  }
+            myEndDate != "" else {
+                 alert(mesage: "You must fill all textfields")
+                return  }
         
         guard let startDate = dateFormatter.date(from: myStartDate) ,
             let endDate = dateFormatter.date(from: myEndDate) else { return  }
         
+        guard startDate <= endDate else {
+            alert(mesage: "start date project must be less than end date ")
+            return
+        }
+        
+        if project.tasks.filter("startDate < %@" , startDate).count != 0 {
+            alert(mesage: "there are some tasks then they have start date less than start project ")
+            return
+        }
+        
+        if project.tasks.filter("endDate > %@" , endDate).count != 0 {
+            alert(mesage: "there are some tasks then they have end date bigger than end project ")
+            return
+        }
+
         if myTitle == "Edit Project" {
             databaseManagerRealm.write(project: project, name: name, startDate: startDate,  endDate: endDate)
         }
@@ -132,6 +150,23 @@ class AddProjectViewController : UIViewController {
 //        scrollView.scrollIndicatorInsets = contentInsets
     }
     
+    // Alert
+    func alert(mesage : String , titleButton1 : String = "Ok" , titleButton2 : String = "" , okAction : ((UIAlertAction) -> ())? = nil, cancelAction : ((UIAlertAction) -> ())? = nil ){
+        
+        let alert = UIAlertController(title: "Warning", message: mesage, preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: titleButton1, style: .default, handler: okAction)
+        alert.addAction(okAction)
+        
+        if titleButton2 != "" {
+            let cancelAction = UIAlertAction(title: titleButton2, style: .default, handler: cancelAction)
+            alert.addAction(cancelAction)
+        }
+        
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+
     
 }
 

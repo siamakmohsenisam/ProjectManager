@@ -14,24 +14,10 @@ class Task: Object {
     dynamic var name : String = ""
     dynamic var startDate = Date()
     dynamic var endDate = Date()
+    dynamic var status = "toDo"
     dynamic var effort = 0.0
-    
-    dynamic var status = "toDo" {
-        willSet {
-            switch newValue {
-            case "inProgress":
-                startDate = Date()
-                break
-            case "done":
-                endDate = Date()
-                break
-            default :
-                break
-            }
-        }
-    }
-    
-    
+    dynamic var effortStartDate : Date? = nil
+
     override static func primaryKey() -> String? {
         return "id"
     }

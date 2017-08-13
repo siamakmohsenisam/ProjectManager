@@ -25,7 +25,7 @@ class NotesTableViewController: UITableViewController {
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(showViewController))
         navigationItem.leftBarButtonItem = cancelButton
         
-        navigationItem.title = "List of Notes"
+        navigationItem.title = project.name
         
     }
     
@@ -37,6 +37,10 @@ class NotesTableViewController: UITableViewController {
     }
     
     func doneTextView(){
+        guard textView.text != "" else {
+            alert(mesage: "You must fill textfield")
+            return
+        }
         if index == -1{
             let note = MyNotes()
             if let myText = textView.text {
@@ -138,6 +142,24 @@ class NotesTableViewController: UITableViewController {
         return [delete, edit]
     }
     
+    // Alert
+    func alert(mesage : String , titleButton1 : String = "Ok" , titleButton2 : String = "" , okAction : ((UIAlertAction) -> ())? = nil, cancelAction : ((UIAlertAction) -> ())? = nil ){
+        
+        
+        let alert = UIAlertController(title: "Warning", message: mesage, preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: titleButton1, style: .default, handler: okAction)
+        alert.addAction(okAction)
+        
+        if titleButton2 != "" {
+            let cancelAction = UIAlertAction(title: titleButton2, style: .default, handler: cancelAction)
+            alert.addAction(cancelAction)
+        }
+        
+        self.present(alert, animated: true, completion: nil)
+        
+    }
     
+
     
 }

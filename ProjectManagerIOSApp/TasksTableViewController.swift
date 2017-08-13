@@ -23,7 +23,7 @@ class TasksTableViewController: UITableViewController {
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(showViewController))
         navigationItem.leftBarButtonItem = cancelButton
         
-        navigationItem.title = "List of Task"
+        navigationItem.title = project.name
         
     }
     
