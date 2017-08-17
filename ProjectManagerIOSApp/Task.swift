@@ -15,9 +15,11 @@ class Task: Object {
     dynamic var startDate = Date()
     dynamic var endDate = Date()
     dynamic var status = "toDo"
-    dynamic var effort = 0.0
-    dynamic var effortStartDate : Date? = nil
-
+    dynamic var effort = Date()
+    dynamic var baseEffort = Date()
+    dynamic var effortStartDate = Date()
+    dynamic var effortEndDate = Date()
+    
     override static func primaryKey() -> String? {
         return "id"
     }

@@ -10,10 +10,8 @@ import UIKit
 import UICircularProgressRing
 
 
-class AddProjectViewController : UIViewController {
+class AddProjectViewController : UITableViewController {
     
-    
-    @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var textFieldName: UITextField!
     @IBOutlet weak var textFieldStartDate: UITextField!
@@ -22,18 +20,21 @@ class AddProjectViewController : UIViewController {
     
     let databaseManagerRealm = DatabaseManagerRealm.sharedInstance
     var project = Project()
-    let dateFormatter = DateFormatter()
+   
     
     var myTitle : String?
     let datePicker = UIDatePicker()
+    let timePicker = UIDatePicker()
+    let dateFormatter = DateFormatter()
+    let timeFormatter = DateFormatter()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        registerForKeyboardNotifications()
         datePicker.datePickerMode = .date
         dateFormatter.dateStyle = .long
-        
+                
         if myTitle == "Edit Project" {
             textFieldName.text = project.name
             textFieldStartDate.text = dateFormatter.string(from: project.startDate)
@@ -74,7 +75,7 @@ class AddProjectViewController : UIViewController {
         guard name != "" &&
             myStartDate != "" &&
             myEndDate != "" else {
-                 alert(mesage: "You must fill all textfields")
+                alert(mesage: "You must fill all textfields")
                 return  }
         
         guard let startDate = dateFormatter.date(from: myStartDate) ,
@@ -85,16 +86,20 @@ class AddProjectViewController : UIViewController {
             return
         }
         
-        if project.tasks.filter("startDate < %@" , startDate).count != 0 {
-            alert(mesage: "there are some tasks then they have start date less than start project ")
-            return
+        if project.tasks.count != 0 {
+            
+            
+            if project.tasks.filter("startDate < %@" , startDate).count != 0 {
+                alert(mesage: "there are some tasks then they have start date less than start project ")
+                return
+            }
+            
+            if project.tasks.filter("endDate > %@" , endDate).count != 0 {
+                alert(mesage: "there are some tasks then they have end date bigger than end project ")
+                return
+            }
         }
         
-        if project.tasks.filter("endDate > %@" , endDate).count != 0 {
-            alert(mesage: "there are some tasks then they have end date bigger than end project ")
-            return
-        }
-
         if myTitle == "Edit Project" {
             databaseManagerRealm.write(project: project, name: name, startDate: startDate,  endDate: endDate)
         }
@@ -122,34 +127,6 @@ class AddProjectViewController : UIViewController {
     }
     
     
-    
-    // keyboard method
-    
-    func registerForKeyboardNotifications(){
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden), name: .UIKeyboardWillHide, object: nil)
-    }
-    
-    func keyboardWasShown(_ notification: NSNotification) {
-        guard let info = notification.userInfo,
-            let kerboardFrameValue = info[UIKeyboardFrameBeginUserInfoKey] as? NSValue
-            else { return  }
-        let keyboardFrame = kerboardFrameValue.cgRectValue
-        let keyboardSize = keyboardFrame.size
-        let contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize.height, 0.0)
-        scrollView.contentInset = contentInsets
-        scrollView.scrollIndicatorInsets = contentInsets
-    }
-    
-    func keyboardWillBeHidden(_ notification: NSNotification) {
-        
-        scrollView.setContentOffset(CGPoint(x: 0, y: -60), animated: true)
-
-//        let contentInsets = UIEdgeInsets.zero
-//        scrollView.contentInset = contentInsets
-//        scrollView.scrollIndicatorInsets = contentInsets
-    }
-    
     // Alert
     func alert(mesage : String , titleButton1 : String = "Ok" , titleButton2 : String = "" , okAction : ((UIAlertAction) -> ())? = nil, cancelAction : ((UIAlertAction) -> ())? = nil ){
         
@@ -166,7 +143,7 @@ class AddProjectViewController : UIViewController {
         self.present(alert, animated: true, completion: nil)
         
     }
-
+    
     
 }
 

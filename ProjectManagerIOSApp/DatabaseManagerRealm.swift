@@ -61,7 +61,7 @@ class DatabaseManagerRealm : NSObject {
         }
     }
     // update a Task
-    public func write(task : Task, projectName : String, name : String? = nil , startDate : Date? = nil, endDate : Date? = nil, effort : Double? = nil , status : String? = nil) {
+    public func write(task : Task, projectName : String, name : String? = nil , startDate : Date? = nil, endDate : Date? = nil, effort : Date? = nil , status : String? = nil, baseEffort : Date? = nil, effortStartDate : Date? = nil, effortEndDate : Date? = nil) {
         
         try? realm?.write
         {
@@ -82,6 +82,16 @@ class DatabaseManagerRealm : NSObject {
             if let myStatus = status {
                 task.status = myStatus
             }
+            if let myBaseEffort = baseEffort {
+                task.baseEffort = myBaseEffort
+            }
+            if let myEffortStartDate = effortStartDate {
+                task.effortStartDate = myEffortStartDate
+            }
+            if let myEffortEndDate = effortEndDate {
+                task.effortEndDate = myEffortEndDate
+            }
+
         }
     }
     // update a Note

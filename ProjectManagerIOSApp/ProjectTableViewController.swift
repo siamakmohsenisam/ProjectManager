@@ -21,7 +21,6 @@ class ProjectTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        calculatePercent()
         
         
         
@@ -41,6 +40,7 @@ class ProjectTableViewController: UITableViewController {
         tableView.reloadData()
     }
 
+    
     func showViewController(_ sender : Any) {
         
         let myNavigation = storyboard?.instantiateViewController(withIdentifier: "AddProjectNavigation") as! UINavigationController
@@ -59,31 +59,6 @@ class ProjectTableViewController: UITableViewController {
     
     
     
-    func calculatePercent() -> Int {
-       
-        let calendar = Calendar.current
-        let dateForrmater = DateFormatter()
-        dateForrmater.dateFormat = "y-MM-dd h:mm:ss "
-        
-        var endDate = calendar.date(byAdding: .year, value: 10, to: Date())
-        
-       var duration = calendar.dateComponents([.day ], from: Date(), to: endDate!)
-        print(duration)
-        let d1 = calendar.date(from: duration)
-        var du2 = calendar.dateComponents([.hour, .day, .minute, .second, .year, .month ], from: d1!)
-        
-        print(du2)
-        du2.hour! += 30
-        
-        print(du2)
-        
-        let s = calendar.date(from: du2)
-        print(calendar.dateComponents([.hour, .day, .minute, .second, .year, .month ], from: s!))
-        print(dateForrmater.string(from: s!))
-        
-        
-        return 0
-    }
     
     
     
@@ -112,7 +87,11 @@ class ProjectTableViewController: UITableViewController {
         return cell
     }
     
-    
+    // Override to support rearranging the table view.
+    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+        
+    }
+
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
         
@@ -217,12 +196,8 @@ class ProjectTableViewController: UITableViewController {
     }
     */
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
+    
+    
 
     /*
     // Override to support conditional rearranging of the table view.

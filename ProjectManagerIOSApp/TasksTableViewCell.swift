@@ -10,6 +10,7 @@ import UIKit
 
 class TasksTableViewCell: UITableViewCell {
 
+   
     @IBOutlet weak var labelEffort: UILabel!
     
     @IBOutlet weak var labelName: UILabel!
@@ -26,8 +27,19 @@ class TasksTableViewCell: UITableViewCell {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
 
+        
+        let calendar = Calendar.current
+        
+
         labelName.text = task.name
-        labelEffort.text = String(task.effort) + "h"
+        
+        
+        let myEffort = calendar.dateComponents([.hour , .minute], from: task.baseEffort, to: task.effort)
+        
+        guard let hour = myEffort.hour,
+                let minute = myEffort.minute
+            else { return  }
+        labelEffort.text = "\(hour):\(minute)"
         labelStatus.text = task.status
         labelStartDate.text = dateFormatter.string(from: task.startDate)
         labelEndDate.text = dateFormatter.string(from: task.endDate)

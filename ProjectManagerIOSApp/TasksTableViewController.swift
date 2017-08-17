@@ -36,7 +36,7 @@ class TasksTableViewController: UITableViewController {
         
         let myNavigation = storyboard?.instantiateViewController(withIdentifier: "AddTaskNavigation") as! UINavigationController
         
-        let myViewController = myNavigation.viewControllers[0] as? AddTaskViewController
+        let myViewController = myNavigation.viewControllers[0] as? AddTaskTableViewController
         
         if  (sender as AnyObject).tag == 1 {
             myViewController?.myTitle = "Add New Task"
@@ -108,7 +108,7 @@ class TasksTableViewController: UITableViewController {
             
             let myNavigation = self.storyboard?.instantiateViewController(withIdentifier: "AddTaskNavigation") as! UINavigationController
             
-            let myViewController = myNavigation.viewControllers[0] as? AddTaskViewController
+            let myViewController = myNavigation.viewControllers[0] as? AddTaskTableViewController
             
             myViewController?.project = self.project
             myViewController?.task = self.project.tasks[indexPath.row]
