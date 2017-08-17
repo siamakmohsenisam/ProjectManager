@@ -22,7 +22,7 @@ class AddTaskTableViewController: UITableViewController  , UIPickerViewDelegate,
     @IBAction func buttonStartTimer(_ sender: UIButton) {
         
         guard textFieldStatus.text == "inProgress" else {
-            alert(mesage: "you can't set timer start effort when your status task is toDo or Done")
+            alert(message: "you can't set timer start effort when your status task is toDo or Done", target: self)
             return
         }
         textFieldStartEffort.text = timeFormatter.string(from: Date())
@@ -32,7 +32,7 @@ class AddTaskTableViewController: UITableViewController  , UIPickerViewDelegate,
       
             
             guard textFieldStartEffort.text != "" else {
-                alert(mesage: "first you must fill start effort time")
+                alert(message: "first you must fill start effort time", target: self)
                 return }
             
             textFieldPauseEffort.text = timeFormatter.string(from: Date())
@@ -64,7 +64,6 @@ class AddTaskTableViewController: UITableViewController  , UIPickerViewDelegate,
     
     var durationHour = 0
     var durationMinute = 0
-    
     var effortStartDate = Date()
     var effortEndDate = Date()
     var baseEffort = Date()
@@ -156,7 +155,6 @@ class AddTaskTableViewController: UITableViewController  , UIPickerViewDelegate,
             let myStartDate = textFieldStartDate.text ,
             let myEndDate = textFieldEndDate.text ,
             let status = textFieldStatus.text ,
-            let myEffortStartDate = textFieldStartEffort.text ,
             let myEffort = labelEffort.text else {  return }
         
         guard name != "" &&
@@ -164,23 +162,29 @@ class AddTaskTableViewController: UITableViewController  , UIPickerViewDelegate,
             myEndDate != "" &&
             status != "" &&
             myEffort != "" else {
-                alert(mesage: "You must fill all textfields")
+                alert(message: "You must fill all textfields", target: self)
                 return  }
         
         guard let startDate = dateFormatter.date(from: myStartDate) ,
             let endDate = dateFormatter.date(from: myEndDate) else {
-                alert(mesage: "Your effort is not correct")
+                alert(message: "Your effort is not correct", target: self)
                 return  }
         guard startDate >= project.startDate else {
-            alert(mesage: "you can't set start date task befor start project")
+            alert(message: "you can't set start date task befor start project", target: self)
             return }
         guard endDate <= project.endDate else {
-            alert(mesage: "you can't set end date task after end project")
+            alert(message: "you can't set end date task after end project", target: self)
             return }
         
-        if status == "toDo" &&  baseEffort < effort {
-            alert(mesage: "when status is toDo then effort must be. zero Do you want change that ?", titleButton1: "Ok", titleButton2: "Cancel", okAction: changeBaseEffort, cancelAction: doNotChangeEffort)
+        if status == "toDo" && baseEffort < effort  {
+            
+            alert(message: "when status is toDo then effort must be. zero Do you want change that ?", titleButton1: "Ok", titleButton2: "Cancel", target: self, okAction: changeBaseEffort, cancelAction: doNotChangeEffort)
+            
             return }
+        
+         if status == "toDo"  {
+            changeBaseEffort(UIAlertAction())
+        }
         
         var startTaskDate = startDate
         var endTaskDate = endDate
@@ -194,7 +198,7 @@ class AddTaskTableViewController: UITableViewController  , UIPickerViewDelegate,
                     startTaskDate = Date()
                 }
                 else {
-                    alert(mesage: "start of task must be bigger than start of project ")
+                    alert(message: "start of task must be bigger than start of project ", target: self)
                     return }
             }
             
@@ -203,25 +207,25 @@ class AddTaskTableViewController: UITableViewController  , UIPickerViewDelegate,
                     endTaskDate = Date()
                 }
                 else {
-                    alert(mesage: "end of task must be less than end of project ")
+                    alert(message: "end of task must be less than end of project ", target: self)
                     return }
             }
             
             if task.status == "toDo" && status == "done"{
-                alert(mesage: "first have to have in progress status ")
+                alert(message: "first have to have in progress status ", target: self)
                 return
             }
             
             
             if task.status == "done" && status == "toDo"{
-                alert(mesage: "first have to have in progress status")
+                alert(message: "first have to have in progress status", target: self)
                 return
                 
             }
 
             
             guard startTaskDate <= endTaskDate else {
-                alert(mesage: "start date task must be less than end date ")
+                alert(message: "start date task must be less than end date ", target: self)
                 return  }
             
             if durationHour != 0 || durationMinute != 0 {
@@ -252,7 +256,7 @@ class AddTaskTableViewController: UITableViewController  , UIPickerViewDelegate,
                     startTaskDate = Date()
                 }
                 else {
-                    alert(mesage: "start of task must be bigger than start of project ")
+                    alert(message: "start of task must be bigger than start of project ", target: self)
                     return }
             }
             
@@ -261,12 +265,12 @@ class AddTaskTableViewController: UITableViewController  , UIPickerViewDelegate,
                     endTaskDate = Date()
                 }
                 else {
-                    alert(mesage: "end of task must be less than end of project ")
+                    alert(message: "end of task must be less than end of project ", target: self)
                     return }
             }
             
             guard startTaskDate <= endTaskDate else {
-                alert(mesage: "start date task must be less than end date ")
+                alert(message: "start date task must be less than end date ", target: self)
                 return  }
             task.name = name
             task.startDate = startTaskDate
@@ -309,7 +313,7 @@ class AddTaskTableViewController: UITableViewController  , UIPickerViewDelegate,
             
         else if textFieldStartEffort.isEditing {
             guard textFieldStatus.text == "inProgress" else {
-                alert(mesage: "you can't set timer start effort when your status task is toDo or Done")
+                alert(message: "you can't set timer start effort when your status task is toDo or Done", target: self)
                 return
             }
             textFieldStartEffort.text = timeFormatter.string(from: timePicker.date)
@@ -317,7 +321,7 @@ class AddTaskTableViewController: UITableViewController  , UIPickerViewDelegate,
         else if textFieldPauseEffort.isEditing {
             
             guard textFieldStartEffort.text != "" else {
-                alert(mesage: "first you must fill start effort time")
+                alert(message: "first you must fill start effort time", target: self)
                 return }
             
             textFieldPauseEffort.text = timeFormatter.string(from: timePicker.date)
@@ -341,6 +345,21 @@ class AddTaskTableViewController: UITableViewController  , UIPickerViewDelegate,
     }
     
     func cancelMethod() {
+        if textFieldStartDate.isEditing {
+            textFieldStartDate.text = ""
+        }
+        else if textFieldEndDate.isEditing {
+            textFieldEndDate.text = ""
+        }            
+        else if textFieldStartEffort.isEditing {
+            textFieldStartEffort.text = ""
+        }
+        else if textFieldPauseEffort.isEditing {
+           textFieldPauseEffort.text = ""
+        }
+        else if textFieldStatus.isEditing {
+            textFieldStatus.text = ""
+        }
         self.view.endEditing(true)
     }
     
@@ -358,24 +377,7 @@ class AddTaskTableViewController: UITableViewController  , UIPickerViewDelegate,
     }
     
     
-    // Alert
-    func alert(mesage : String , titleButton1 : String = "Ok" , titleButton2 : String = "" , okAction : ((UIAlertAction) -> ())? = nil, cancelAction : ((UIAlertAction) -> ())? = nil ){
-        
-        
-        let alert = UIAlertController(title: "Warning", message: mesage, preferredStyle: .alert)
-        
-        let okAction = UIAlertAction(title: titleButton1, style: .default, handler: okAction)
-        alert.addAction(okAction)
-        
-        if titleButton2 != "" {
-            let cancelAction = UIAlertAction(title: titleButton2, style: .default, handler: cancelAction)
-            alert.addAction(cancelAction)
-        }
-        
-        self.present(alert, animated: true, completion: nil)
-        
-    }
-    
+     
     func changeBaseEffort(_ sender : UIAlertAction){
         effortStartDate = effortEndDate
         effort = baseEffort

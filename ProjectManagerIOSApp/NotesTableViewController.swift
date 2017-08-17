@@ -38,7 +38,7 @@ class NotesTableViewController: UITableViewController {
     
     func doneTextView(){
         guard textView.text != "" else {
-            alert(mesage: "You must fill textfield")
+            alert(message: "You must fill textfield", target: self)
             return
         }
         if index == -1{
@@ -65,10 +65,6 @@ class NotesTableViewController: UITableViewController {
         textView.removeFromSuperview()
     }
     
-    
-    
-    
-    
     func showViewController() {
         let myNavigation = storyboard?.instantiateViewController(withIdentifier: "TableProjectNavigation") as! UINavigationController
         
@@ -89,7 +85,6 @@ class NotesTableViewController: UITableViewController {
         return project.notes.count
     }
     
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NotesCellIdentifier", for: indexPath)
         
@@ -100,31 +95,23 @@ class NotesTableViewController: UITableViewController {
         return cell
     }
     
+    func deleteRow(alertAction : UIAlertAction){
+        databaseManagerRealm.deleteItem(object: project.notes[index], project: self.project, index: index)
+        tableView.reloadData()
+    }
+    func cancelDeleteRow(alertAction : UIAlertAction){
+        tableView.reloadData()
+    }
+
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        
-        
+                
         // Delete Row
         
         let delete = UITableViewRowAction(style: .normal, title: "DEL", handler: { (action , indexPath) in
             
-            let objectForDelete = self.project.notes[indexPath.row]
-            
             // Alert
-            
-            let alert = UIAlertController(title: "Warning", message: "are you sure ?", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: {
-                (myAction) in
-                self.databaseManagerRealm.deleteItem(object: objectForDelete, project: self.project, index: indexPath.row)
-                self.tableView.reloadData()
-            })
-            
-            alert.addAction(okAction)
-            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: {
-                (myAction) in
-                self.tableView.reloadData()
-            })
-            alert.addAction(cancelAction)
-            self.present(alert, animated: true, completion: nil)
+            self.index = indexPath.row
+            alert(message: "are you sure ?", titleButton1: "Ok", titleButton2: "Cancel", target: self, okAction:  self.deleteRow, cancelAction: self.cancelDeleteRow)
         })
         
         // Edit Row
@@ -141,25 +128,6 @@ class NotesTableViewController: UITableViewController {
         
         return [delete, edit]
     }
-    
-    // Alert
-    func alert(mesage : String , titleButton1 : String = "Ok" , titleButton2 : String = "" , okAction : ((UIAlertAction) -> ())? = nil, cancelAction : ((UIAlertAction) -> ())? = nil ){
-        
-        
-        let alert = UIAlertController(title: "Warning", message: mesage, preferredStyle: .alert)
-        
-        let okAction = UIAlertAction(title: titleButton1, style: .default, handler: okAction)
-        alert.addAction(okAction)
-        
-        if titleButton2 != "" {
-            let cancelAction = UIAlertAction(title: titleButton2, style: .default, handler: cancelAction)
-            alert.addAction(cancelAction)
-        }
-        
-        self.present(alert, animated: true, completion: nil)
-        
-    }
-    
 
     
 }

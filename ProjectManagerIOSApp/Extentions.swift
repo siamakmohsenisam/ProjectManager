@@ -34,24 +34,6 @@ extension UITextField {
         inputAccessoryView = toolbar
 
     }
-//    func addTextFieldTopOfKeyboard(done: String, cancel: String, textField : UITextField, target : UIViewController) {
-//        
-//        let doneSelector = Selector(done)
-//        let cancelSelector = Selector(cancel)
-//        
-//        let barButtonDone = UIBarButtonItem(title: "Done", style: .done, target: target, action: doneSelector)
-//        
-//        
-//        let barButtonSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-//        let barButtonCancel = UIBarButtonItem(title: "Cancel", style: .plain, target: target, action: cancelSelector)
-//        
-//        let toolbar = UIToolbar()
-//        toolbar.sizeToFit()
-//        toolbar.setItems([barButtonDone, barButtonSpace, barButtonCancel], animated: false)
-//        toolbar.addSubview(textField)
-//        inputAccessoryView = toolbar
-//
-//    }
 }
 
 extension UITextView {
@@ -75,6 +57,37 @@ extension UITextView {
         
     }
 }
+
+extension UIViewController {
+    
+    func addNavigationbar(title : String, barButtonSystemItem : UIBarButtonSystemItem, target: UIViewController, action: String) {
+        
+        let selector = Selector(action)
+        
+        navigationItem.leftBarButtonItem = editButtonItem
+        let addButton = UIBarButtonItem(barButtonSystemItem: barButtonSystemItem, target: target, action: selector)
+        navigationItem.rightBarButtonItem = addButton
+        navigationItem.title = title
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

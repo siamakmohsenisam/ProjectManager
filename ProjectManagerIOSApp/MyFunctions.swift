@@ -74,6 +74,24 @@ public func removeEventCalendar(eventIdentifier: String){
     
 }
 
+// Alert
+
+public func alert(message : String , titleButton1 : String = "Ok" , titleButton2 : String = "" ,target : UIViewController, okAction : ((UIAlertAction) -> ())? = nil, cancelAction : ((UIAlertAction) -> ())? = nil ){
+    
+    
+    let alert = UIAlertController(title: "Warning", message: message, preferredStyle: .alert)
+    
+    let okAction = UIAlertAction(title: titleButton1, style: .default, handler: okAction)
+    alert.addAction(okAction)
+    
+    if titleButton2 != "" {
+        let cancelAction = UIAlertAction(title: titleButton2, style: .default, handler: cancelAction)
+        alert.addAction(cancelAction)
+    }
+        target.present(alert, animated: true, completion: nil)
+    
+    
+}
 
 
 

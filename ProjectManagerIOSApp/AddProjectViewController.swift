@@ -55,7 +55,6 @@ class AddProjectViewController : UITableViewController {
             identifier = project.identifier
         }
         
-        
         let addButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveProject))
         navigationItem.rightBarButtonItem = addButton
         
@@ -89,14 +88,14 @@ class AddProjectViewController : UITableViewController {
         guard name != "" &&
             myStartDate != "" &&
             myEndDate != "" else {
-                alert(mesage: "You must fill all textfields")
+                alert(message: "You must fill all textfields", target: self)
                 return  }
         
         guard let startDate = dateFormatter.date(from: myStartDate) ,
             let endDate = dateFormatter.date(from: myEndDate) else { return  }
         
         guard startDate <= endDate else {
-            alert(mesage: "start date project must be less than end date ")
+            alert(message: "start date project must be less than end date ", target: self)
             return
         }
         
@@ -104,17 +103,22 @@ class AddProjectViewController : UITableViewController {
             
             
             if project.tasks.filter("startDate < %@" , startDate).count != 0 {
-                alert(mesage: "there are some tasks then they have start date less than start project ")
+                alert(message: "there are some tasks then they have start date less than start project ", target: self)
                 return
             }
             
             if project.tasks.filter("endDate > %@" , endDate).count != 0 {
-                alert(mesage: "there are some tasks then they have end date bigger than end project ")
+                alert(message: "there are some tasks then they have end date bigger than end project ", target: self)
                 return
             }
         }
         
         if switchAddReminder.isOn {
+            
+            if identifier != "" {
+                removeEventCalendar(eventIdentifier: identifier)
+                identifier = ""
+            }
             addEventCalendar(myEventTitle: name, startDate: startDate, endDate: endDate, completion: {
                 (eventIdentifier) in
                 
@@ -122,7 +126,7 @@ class AddProjectViewController : UITableViewController {
                     identifier = eventIdentifier
                 }
                 else {
-                    self.alert(mesage: "app can not access to ios event calendar. your authorization is \(authorizationStatus) ")                    
+                    alert(message: "app can not access to ios event calendar. your authorization is \(authorizationStatus) ", target: self)
                 }
             })
             
@@ -159,27 +163,19 @@ class AddProjectViewController : UITableViewController {
         self.view.endEditing(true)
     }
     func cancelMethod() {
+        if textFieldStartDate.isEditing {
+            textFieldStartDate.text = ""
+        }
+        else if textFieldEndDate.isEditing {
+            textFieldEndDate.text = ""
+        }
+        if textFieldName.isEditing {
+            textFieldName.text = ""
+        }
         self.view.endEditing(true)
         
     }
     
-    
-    // Alert
-    func alert(mesage : String , titleButton1 : String = "Ok" , titleButton2 : String = "" , okAction : ((UIAlertAction) -> ())? = nil, cancelAction : ((UIAlertAction) -> ())? = nil ){
-        
-        let alert = UIAlertController(title: "Warning", message: mesage, preferredStyle: .alert)
-        
-        let okAction = UIAlertAction(title: titleButton1, style: .default, handler: okAction)
-        alert.addAction(okAction)
-        
-        if titleButton2 != "" {
-            let cancelAction = UIAlertAction(title: titleButton2, style: .default, handler: cancelAction)
-            alert.addAction(cancelAction)
-        }
-        
-        self.present(alert, animated: true, completion: nil)
-        
-    }
     
     
 }
