@@ -35,7 +35,7 @@ class DatabaseManagerRealm : NSObject {
     }
     
      // update a Project
-    public func write(project : Project, name : String? = nil , startDate : Date? = nil, endDate : Date? = nil, task : Task? = nil , note : MyNotes? = nil  ) {
+    public func write(project : Project, name : String? = nil , startDate : Date? = nil, endDate : Date? = nil , identifier: String? = nil , task : Task? = nil , note : MyNotes? = nil ) {
         
         try? realm?.write
         {
@@ -50,6 +50,10 @@ class DatabaseManagerRealm : NSObject {
             if let myEndDate = endDate {
                 project.endDate = myEndDate
             }
+            if let myIdentifier = identifier {
+                project.identifier = myIdentifier
+            }
+            
             if let myTask = task {
                 if project.tasks.filter("name = %@", myTask.name).count == 0 {
                     project.tasks.append(myTask)

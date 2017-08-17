@@ -16,7 +16,7 @@
 		6595E8C51F320668004C8CCA /* ProjectManagerIOSAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6595E8C41F320668004C8CCA /* ProjectManagerIOSAppTests.swift */; };
 		6595E8D01F320668004C8CCA /* ProjectManagerIOSAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6595E8CF1F320668004C8CCA /* ProjectManagerIOSAppUITests.swift */; };
 		6595E8DF1F320CF6004C8CCA /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6595E8DE1F320CF6004C8CCA /* Task.swift */; };
-		6595E8E21F320ED8004C8CCA /* TaskStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6595E8E11F320ED8004C8CCA /* TaskStatus.swift */; };
+		6595E8E21F320ED8004C8CCA /* MyFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6595E8E11F320ED8004C8CCA /* MyFunctions.swift */; };
 		6595E8E41F321264004C8CCA /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6595E8E31F321264004C8CCA /* Project.swift */; };
 		6595E8E61F32140A004C8CCA /* DatabaseManagerRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6595E8E51F32140A004C8CCA /* DatabaseManagerRealm.swift */; };
 		6595E8E91F325138004C8CCA /* ProjectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6595E8E81F325138004C8CCA /* ProjectTableViewController.swift */; };
@@ -70,7 +70,7 @@
 		6595E8CF1F320668004C8CCA /* ProjectManagerIOSAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectManagerIOSAppUITests.swift; sourceTree = "<group>"; };
 		6595E8D11F320668004C8CCA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6595E8DE1F320CF6004C8CCA /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
-		6595E8E11F320ED8004C8CCA /* TaskStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskStatus.swift; sourceTree = "<group>"; };
+		6595E8E11F320ED8004C8CCA /* MyFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyFunctions.swift; sourceTree = "<group>"; };
 		6595E8E31F321264004C8CCA /* Project.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		6595E8E51F32140A004C8CCA /* DatabaseManagerRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManagerRealm.swift; sourceTree = "<group>"; };
 		6595E8E81F325138004C8CCA /* ProjectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectTableViewController.swift; sourceTree = "<group>"; };
@@ -212,7 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				6595E8DE1F320CF6004C8CCA /* Task.swift */,
-				6595E8E11F320ED8004C8CCA /* TaskStatus.swift */,
+				6595E8E11F320ED8004C8CCA /* MyFunctions.swift */,
 				65F9EC681F32E01600DB446E /* MyNotes.swift */,
 				6595E8E31F321264004C8CCA /* Project.swift */,
 				6595E8E51F32140A004C8CCA /* DatabaseManagerRealm.swift */,
@@ -507,7 +507,7 @@
 				6595E8DF1F320CF6004C8CCA /* Task.swift in Sources */,
 				65F9EC6B1F3417D900DB446E /* Extentions.swift in Sources */,
 				65B34AB31F3E2B60005B0287 /* NotesTableViewCell.swift in Sources */,
-				6595E8E21F320ED8004C8CCA /* TaskStatus.swift in Sources */,
+				6595E8E21F320ED8004C8CCA /* MyFunctions.swift in Sources */,
 				6595E8E61F32140A004C8CCA /* DatabaseManagerRealm.swift in Sources */,
 				6595E8E41F321264004C8CCA /* Project.swift in Sources */,
 				65F9EC691F32E01600DB446E /* MyNotes.swift in Sources */,

@@ -18,7 +18,7 @@ class Project: Object {
     let tasks = List<Task>()
         
     // I will use this variable for delete from ios Calendar
-    dynamic var identifire = ""
+    dynamic var identifier = ""
 
     
     override static func primaryKey() -> String? {

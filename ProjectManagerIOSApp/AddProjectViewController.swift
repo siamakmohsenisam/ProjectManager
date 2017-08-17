@@ -9,7 +9,6 @@
 import UIKit
 import UICircularProgressRing
 
-
 class AddProjectViewController : UITableViewController {
     
     
@@ -28,9 +27,17 @@ class AddProjectViewController : UITableViewController {
     let dateFormatter = DateFormatter()
     let timeFormatter = DateFormatter()
 
+    var authorizationStatus = ""
+    var identifier = ""
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        getAuthorizationStatus(completion: {
+        (authorizationStatus) in
+            self.authorizationStatus = authorizationStatus
+        })
         
         datePicker.datePickerMode = .date
         dateFormatter.dateStyle = .long
@@ -39,6 +46,13 @@ class AddProjectViewController : UITableViewController {
             textFieldName.text = project.name
             textFieldStartDate.text = dateFormatter.string(from: project.startDate)
             textFieldEndDate.text = dateFormatter.string(from: project.endDate)
+            if project.identifier != "" {
+                switchAddReminder.setOn(true, animated: true)
+            }
+            else{
+                switchAddReminder.setOn(false, animated: true)
+            }
+            identifier = project.identifier
         }
         
         
@@ -100,13 +114,35 @@ class AddProjectViewController : UITableViewController {
             }
         }
         
+        if switchAddReminder.isOn {
+            addEventCalendar(myEventTitle: name, startDate: startDate, endDate: endDate, completion: {
+                (eventIdentifier) in
+                
+                if eventIdentifier != "" {
+                    identifier = eventIdentifier
+                }
+                else {
+                    self.alert(mesage: "app can not access to ios event calendar. your authorization is \(authorizationStatus) ")                    
+                }
+            })
+            
+        }
+        else {
+            if identifier != "" {
+                removeEventCalendar(eventIdentifier: identifier)
+                identifier = ""
+            }
+        }
+        
         if myTitle == "Edit Project" {
-            databaseManagerRealm.write(project: project, name: name, startDate: startDate,  endDate: endDate)
+            
+            databaseManagerRealm.write(project: project, name: name, startDate: startDate,  endDate: endDate , identifier: identifier)
         }
         else{
             project.name = name
             project.startDate = startDate
             project.endDate = endDate
+            project.identifier = identifier
             databaseManagerRealm.write(object: project)
         }
         showViewController()
@@ -124,6 +160,7 @@ class AddProjectViewController : UITableViewController {
     }
     func cancelMethod() {
         self.view.endEditing(true)
+        
     }
     
     

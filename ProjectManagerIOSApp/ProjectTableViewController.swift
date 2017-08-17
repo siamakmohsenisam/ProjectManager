@@ -26,7 +26,6 @@ class ProjectTableViewController: UITableViewController {
         
         navigationItem.leftBarButtonItem = editButtonItem
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showViewController))
-        addButton.tag = 1
         navigationItem.rightBarButtonItem = addButton
         navigationItem.title = "Table Projects"
         
@@ -48,9 +47,9 @@ class ProjectTableViewController: UITableViewController {
         let myViewController = myNavigation.viewControllers[0] as? AddProjectViewController
         
 
-        if  (sender as AnyObject).tag == 1 {
+       
             myViewController?.myTitle = "Add New Project"
-        }
+        
         
         present(myNavigation , animated: true, completion: nil)
     
