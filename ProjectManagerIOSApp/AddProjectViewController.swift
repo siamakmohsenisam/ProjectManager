@@ -11,6 +11,7 @@ import UICircularProgressRing
 
 class AddProjectViewController : UITableViewController {
     
+    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     
     @IBOutlet weak var textFieldName: UITextField!
     @IBOutlet weak var textFieldStartDate: UITextField!
@@ -33,7 +34,7 @@ class AddProjectViewController : UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         getAuthorizationStatus(completion: {
         (authorizationStatus) in
             self.authorizationStatus = authorizationStatus
@@ -78,8 +79,15 @@ class AddProjectViewController : UITableViewController {
         projectTableViewController?.tableView.reloadData()
         present(myNavigation , animated: true, completion: nil)
     }
+    func saveProject()  {
+        self.activityIndicatorView.startAnimating()
+        DispatchQueue.main.async {
+            self.saveProjectAfter()
+        }
+    }
     
-    func saveProject(){
+    func saveProjectAfter(){
+     
         
         guard let name = textFieldName.text ,
             let myStartDate = textFieldStartDate.text ,
@@ -119,16 +127,19 @@ class AddProjectViewController : UITableViewController {
                 removeEventCalendar(eventIdentifier: identifier)
                 identifier = ""
             }
+           
             addEventCalendar(myEventTitle: name, startDate: startDate, endDate: endDate, completion: {
                 (eventIdentifier) in
                 
                 if eventIdentifier != "" {
-                    identifier = eventIdentifier
+                    self.identifier = eventIdentifier
                 }
                 else {
-                    alert(message: "app can not access to ios event calendar. your authorization is \(authorizationStatus) ", target: self)
+                    alert(message: "app can not access to ios event calendar. your authorization is \(self.authorizationStatus) ", target: self)
                 }
+                self.activityIndicatorView.stopAnimating()
             })
+  
             
         }
         else {
@@ -150,7 +161,9 @@ class AddProjectViewController : UITableViewController {
             databaseManagerRealm.write(object: project)
         }
         showViewController()
+        
     }
+   
     
     func doneMethod() {
         

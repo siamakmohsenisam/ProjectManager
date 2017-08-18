@@ -293,11 +293,17 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="AEA-ee-mjU">
+                                                    <rect key="frame" x="177" y="11" width="20" height="20"/>
+                                                    <color key="color" red="0.1008383607" green="0.633492634" blue="0.1486798557" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="8qQ-Ru-3Jh" firstAttribute="top" secondItem="ARb-Va-b2D" secondAttribute="top" id="HKc-ia-6wW"/>
                                                 <constraint firstItem="8qQ-Ru-3Jh" firstAttribute="leading" secondItem="ARb-Va-b2D" secondAttribute="leading" constant="8" id="IMz-eu-hFM"/>
                                                 <constraint firstAttribute="trailing" secondItem="8qQ-Ru-3Jh" secondAttribute="trailing" constant="8" id="LaO-GE-YgS"/>
+                                                <constraint firstItem="AEA-ee-mjU" firstAttribute="centerX" secondItem="ARb-Va-b2D" secondAttribute="centerX" id="XhR-Ji-NnW"/>
+                                                <constraint firstItem="AEA-ee-mjU" firstAttribute="centerY" secondItem="ARb-Va-b2D" secondAttribute="centerY" id="cLC-4c-xoE"/>
                                                 <constraint firstAttribute="bottom" secondItem="8qQ-Ru-3Jh" secondAttribute="bottom" id="xJ5-gt-UKk"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -362,6 +368,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="3ua-Ec-TLU"/>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="AEA-ee-mjU" id="Sbu-bW-dy5"/>
                         <outlet property="switchAddReminder" destination="NvU-vz-XON" id="ITU-1S-MNL"/>
                         <outlet property="textFieldEndDate" destination="SZZ-qO-dl2" id="NZH-X7-NCv"/>
                         <outlet property="textFieldName" destination="3IR-sA-AeF" id="Wa7-4h-hzU"/>
