@@ -17,6 +17,7 @@ class ProjectTableViewController: UITableViewController {
     
     var objects = [Results<Project>]()
     var objectForEdit = Project()
+    var myindexPath = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,12 +68,24 @@ class ProjectTableViewController: UITableViewController {
 
         return cell
     }
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let myDestination = segue.destination
+        if let destinationN = myDestination as? ChartViewController {
+      //      let destination = destinationN.viewControllers[0] as? ChartViewController
+            destinationN.project = objects[0][myindexPath]
+        }
+    }
     // Override to support rearranging the table view.
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
         
     }
-
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        myindexPath = indexPath.row
+        return indexPath
+    }
     func deleteRow(alertAction : UIAlertAction){
         
         removeEventCalendar(eventIdentifier: objectForEdit.identifier)

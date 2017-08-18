@@ -10,6 +10,40 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Chart View Controller-->
+        <scene sceneID="Uat-57-NXr">
+            <objects>
+                <viewController id="yJw-fk-rAx" customClass="ChartViewController" customModule="ProjectManagerIOSApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="npI-rZ-Wql"/>
+                        <viewControllerLayoutGuide type="bottom" id="FkZ-TX-Zht"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="EC1-Mw-4Rj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ahb-bb-jyU" customClass="PieChartView" customModule="Charts">
+                                <rect key="frame" x="16" y="64" width="343" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Ahb-bb-jyU" firstAttribute="leading" secondItem="EC1-Mw-4Rj" secondAttribute="leadingMargin" id="J4O-fu-f9Z"/>
+                            <constraint firstItem="FkZ-TX-Zht" firstAttribute="top" secondItem="Ahb-bb-jyU" secondAttribute="bottom" id="JPl-eD-sF1"/>
+                            <constraint firstItem="Ahb-bb-jyU" firstAttribute="top" secondItem="npI-rZ-Wql" secondAttribute="bottom" id="Osp-Fe-ca3"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Ahb-bb-jyU" secondAttribute="trailing" id="iGU-Wn-cms"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="nka-Tp-QM9"/>
+                    <connections>
+                        <outlet property="pieChartView" destination="Ahb-bb-jyU" id="1t5-Gv-0MD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bsH-ll-7h1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2689" y="-797"/>
+        </scene>
         <!--Project Table View Controller-->
         <scene sceneID="c3h-26-pRC">
             <objects>
@@ -119,6 +153,7 @@
                                     <outlet property="labelStartDate" destination="0gG-Rs-Spp" id="dkh-lO-2WS"/>
                                     <outlet property="numberTasks" destination="cB7-Rh-GHu" id="Kk1-3o-5rT"/>
                                     <outlet property="viewPercent" destination="vwF-7S-TGe" id="vqY-gq-kWg"/>
+                                    <segue destination="yJw-fk-rAx" kind="show" id="49t-jU-cvT"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
